@@ -1,0 +1,136 @@
+name: Integration
+
+on: [ push, pull_request, workflow_dispatch ]
+
+# Make sure only one run is ever queued simultaneously to save resources.
+# If a run is queued when one is already queued, the old one will get cancelled before it starts.
+concurrency:
+  group: integration
+  cancel-in-progress: false
+
+jobs:
+  test_linux:
+    name: Run tests on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.3.0
+
+      - name: Run native tests
+        run: ./gradlew linuxX64Test --info
+
+      - name: Install Java for JVM tests
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 8
+
+      - name: Run JVM tests
+        run: ./gradlew jvmTest --info
+
+      - name: Install browser for JS tests
+        uses: abhi1693/setup-browser@v0.3.5
+        with:
+          browser: chrome
+
+      - name: Install Node for JS tests
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
+      - name: Run JS Browser tests
+        run: ./gradlew jsBrowserTest --info
+
+      - name: Run JS Node tests
+        run: ./gradlew jsNodeTest --info
+
+      - name: Publish test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-linux
+          path: |
+            build/test-results/
+            build/reports/
+
+  test_macos:
+    name: Run tests on MacOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3.3.0
+
+      - name: Run native tests
+        run: ./gradlew macosX64Test --info
+
+      - name: Install Java for JVM tests
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 11
+
+      - name: Run JVM tests
+        run: ./gradlew jvmTest --info
+
+      - name: Install browser for JS tests
+        uses: abhi1693/setup-browser@v0.3.5
+        with:
+          browser: chrome
+
+      - name: Install Node for JS tests
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
+      - name: Run JS Browser tests
+        run: ./gradlew jsBrowserTest --info
+
+      - name: Run JS Node tests
+        run: ./gradlew jsNodeTest --info
+
+      - name: Publish test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-macos
+          path: |
+            build/test-results/
+            build/reports/
+
+  test_windows:
+    name: Run tests on Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3.3.0
+
+      - name: Run native tests
+        run: ./gradlew windowsX64Test --info
+
+      - name: Install Java for JVM tests
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 11
+
+      - name: Run JVM tests
+        run: ./gradlew jvmTest --info
+
+      - name: Install browser for JS tests
+        uses: abhi1693/setup-browser@v0.3.5
+        with:
+          browser: chrome
+
+      - name: Install Node for JS tests
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
+      - name: Run JS Browser tests
+        run: ./gradlew jsBrowserTest --info
+
+      - name: Run JS Node tests
+        run: ./gradlew jsNodeTest --info
+
+      - name: Publish test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-windows
+          path: |
+            build/test-results/
+            build/reports/
