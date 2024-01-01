@@ -1,0 +1,9 @@
+.gradle/
+build/
+
+.idea/**
+!.idea/codeStyles/
+!.idea/codeStyles/**
+!.idea/inspectionProfiles/
+!.idea/inspectionProfiles/**
+!.idea/encodings.xml
