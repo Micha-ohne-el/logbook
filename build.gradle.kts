@@ -6,6 +6,10 @@ group = "moe.micha"
 description = "Kotlin/Multiplatform logging library"
 version = "0.0.0"
 
+object Versions {
+	const val datetime = "0.5.0"
+}
+
 repositories {
 	mavenCentral()
 }
@@ -24,4 +28,10 @@ kotlin {
 	macosX64()
 	macosArm64()
 	mingwX64()
+
+	sourceSets {
+		commonMain.dependencies {
+			implementation("org.jetbrains.kotlinx:kotlinx-datetime:${Versions.datetime}")
+		}
+	}
 }

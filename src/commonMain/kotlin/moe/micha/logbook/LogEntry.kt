@@ -1,10 +1,10 @@
 package moe.micha.logbook
 
-import kotlin.time.TimeMark
+import kotlinx.datetime.Instant
 
 data class LogEntry(
 	val logbook: Logbook,
 	val level: LogLevel,
-	val time: TimeMark,
+	val time: Instant,
 	val data: Any?,
 )

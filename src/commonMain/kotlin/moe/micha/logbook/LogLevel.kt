@@ -1,6 +1,6 @@
 package moe.micha.logbook
 
-import kotlin.time.TimeSource
+import kotlinx.datetime.Clock
 
 class LogLevel(
 	val logbook: Logbook,
@@ -12,7 +12,7 @@ class LogLevel(
 
 	operator fun invoke(data: Any?) {
 		val entry = LogEntry(
-			time = TimeSource.Monotonic.markNow(),
+			time = Clock.System.now(),
 			logbook = logbook,
 			level = this,
 			data = data,

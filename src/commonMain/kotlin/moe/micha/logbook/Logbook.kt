@@ -1,6 +1,8 @@
 package moe.micha.logbook
 
 import kotlin.random.Random
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import moe.micha.logbook.outlets.AnsiConsoleOutlet
 
 open class Logbook(
@@ -18,7 +20,7 @@ open class Logbook(
 		override fun format(entry: LogEntry) =
 			listOf(
 				Chunk("["),
-				Chunk(entry.time.toString()),
+				Chunk(entry.time.toLocalDateTime(TimeZone.currentSystemDefault()).toString()),
 				Chunk("] "),
 				entry.logbook.toChunk(),
 				Chunk(" : "),
