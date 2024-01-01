@@ -64,7 +64,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: 8
 
       - name: Run JVM tests
         run: ./gradlew jvmTest --info
@@ -106,7 +106,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: 8
 
       - name: Run JVM tests
         run: ./gradlew jvmTest --info
