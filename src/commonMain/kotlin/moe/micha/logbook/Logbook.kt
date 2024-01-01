@@ -7,7 +7,6 @@ import moe.micha.logbook.outlets.AnsiConsoleOutlet
 
 open class Logbook(
 	val name: String,
-	config: Logbook.() -> Unit = {},
 ) : Colorable, CanFormat {
 	open fun toChunk() = Chunk(name, colorInfo)
 
@@ -15,7 +14,6 @@ open class Logbook(
 	open class WithDefaults(
 		name: String,
 		random: Random = Random.Default,
-		config: WithDefaults.() -> Unit = {},
 	) : Logbook(name) {
 		override fun format(entry: LogEntry) =
 			listOf(
@@ -29,36 +27,27 @@ open class Logbook(
 				Chunk(entry.data.toString()),
 			)
 
-		open var debug = LogLevel(this, "Debug", AnsiConsoleOutlet()) {
+		var baseRed = Color.fromHsl(-0.05, 0.9, 0.6)
+
+		open var debug = LogLevel(this, "Debug", AnsiConsoleOutlet()).apply {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.6))
 		}
-		open var info = LogLevel(this, "Info", AnsiConsoleOutlet()) {
+		open var info = LogLevel(this, "Info", AnsiConsoleOutlet()).apply {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.4))
 		}
-		open var warning = LogLevel(this, "Warning", AnsiConsoleOutlet()) {
+		open var warning = LogLevel(this, "Warning", AnsiConsoleOutlet()).apply {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.2))
 		}
-		open var error = LogLevel(this, "Error", AnsiConsoleOutlet()) {
+		open var error = LogLevel(this, "Error", AnsiConsoleOutlet()).apply {
 			colorInfo = ColorInfo(foreground = Color.pureWhite, background = baseRed)
 		}
 
 		override var colorInfo = ColorInfo(Color.fromHsl(random.nextDouble(), 1.0, 0.75))
-
-
-		var baseRed = Color.fromHsl(-0.05, 0.9, 0.6)
-
-		init {
-			config()
-		}
 	}
 
 	override var formatter: ((LogEntry) -> Iterable<Chunk>)? = null
 
 	fun formatWith(formatter: (LogEntry) -> Iterable<Chunk>) {
 		this.formatter = formatter
-	}
-
-	init {
-		config()
 	}
 }

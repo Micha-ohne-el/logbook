@@ -6,7 +6,6 @@ class LogLevel(
 	val logbook: Logbook,
 	val name: String,
 	vararg outlets: LogOutlet,
-	config: LogLevel.() -> Unit = {},
 ) : Colorable, CanFormat {
 	var outlets = outlets.toMutableSet()
 
@@ -25,7 +24,7 @@ class LogLevel(
 		}
 	}
 
-	override var colorInfo: ColorInfo = ColorInfo()
+	override var colorInfo: ColorInfo? = null
 
 	fun toChunk() = Chunk(name, colorInfo)
 
@@ -33,9 +32,5 @@ class LogLevel(
 
 	fun formatWith(formatter: (LogEntry) -> Iterable<Chunk>) {
 		this.formatter = formatter
-	}
-
-	init {
-		config()
 	}
 }
