@@ -100,7 +100,7 @@ jobs:
       - uses: actions/checkout@v3.3.0
 
       - name: Run native tests
-        run: ./gradlew windowsX64Test --info
+        run: ./gradlew mingwX64Test --info
 
       - name: Install Java for JVM tests
         uses: actions/setup-java@v3
