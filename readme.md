@@ -8,3 +8,44 @@
 # logbook
 
 Kotlin/Multiplatform logging library.
+
+## Installation
+
+Simply add a dependency on logbook to your Gradle project:
+
+```kt
+repositories {
+    mavenCentral()
+}
+
+// for Kotlin/Multiplatform projects:
+kotlin {
+    sourceSets {
+        commonMain.configure {
+            dependencies {
+                implementation("moe.micha:logbook:$version")
+            }
+        }
+    }
+}
+
+// for Kotlin/JVM projects:
+dependencies {
+    implementation("moe.micha:logbook:$version")
+}
+```
+
+Replace `$version` with the version you want, a list of which can be retrieved on
+[Maven Central](https://central.sonatype.com/artifact/moe.micha/logbook/versions).
+
+## Contributing
+
+I would love for people to contribute to logbook!
+
+If you feel like the library is missing something or you've encountered a bug, please let me know with a
+[GitHub Issue](https://github.com/Micha-ohne-el/logbook/issues)! No need to be shy, there is no format to these Issues,
+just type whatever you want :)
+
+If you've already got experience with Kotlin, feel free to work on a fix or feature on your own and submitting a
+[Pull Request](https://github.com/Micha-ohne-el/logbook/pulls)! There are no official contribution guidelines, just try your
+best and I'll see if I can fix some issues if there are any :)
