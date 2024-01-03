@@ -3,14 +3,14 @@ package moe.micha.logbook
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import kotlin.random.Random
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import moe.micha.logbook.outlets.AnsiConsoleOutlet
 import moe.micha.logbook.pretty.CanFormat
 import moe.micha.logbook.pretty.Chunk
 import moe.micha.logbook.pretty.Color
 import moe.micha.logbook.pretty.ColorInfo
 import moe.micha.logbook.pretty.Colorable
+import moe.micha.logbook.pretty.formatWithSimplePattern
+import moe.micha.logbook.pretty.local
 
 open class Logbook(
 	val name: String,
@@ -24,7 +24,7 @@ open class Logbook(
 		override fun format(entry: LogEntry) =
 			listOf(
 				Chunk("["),
-				Chunk(entry.time.toLocalDateTime(TimeZone.currentSystemDefault()).toString()),
+				Chunk(entry.time.local.formatWithSimplePattern("DD.MM.YYYY@hh:mm:ss.fff")),
 				Chunk("] "),
 				entry.logbook.toChunk(),
 				Chunk(" : "),
