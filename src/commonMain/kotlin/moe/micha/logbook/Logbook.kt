@@ -1,5 +1,7 @@
 package moe.micha.logbook
 
+import kotlin.properties.PropertyDelegateProvider
+import kotlin.properties.ReadOnlyProperty
 import kotlin.random.Random
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -10,7 +12,6 @@ open class Logbook(
 ) : Colorable, CanFormat {
 	open fun toChunk() = Chunk(name, colorInfo)
 
-	@Suppress("LeakingThis")
 	open class WithDefaults(
 		name: String,
 		random: Random = Random.Default,
@@ -29,25 +30,18 @@ open class Logbook(
 
 		var baseRed = Color.fromHsl(-0.05, 0.9, 0.6)
 
-		open var debug = LogLevel(this, "Debug", AnsiConsoleOutlet()).apply {
+		open val debug by level("Debug", AnsiConsoleOutlet()) {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.6))
 		}
-		open var info = LogLevel(this, "Info", AnsiConsoleOutlet()).apply {
+		open val info by level("Info", AnsiConsoleOutlet()) {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.4))
 		}
-		open var warning = LogLevel(this, "Warning", AnsiConsoleOutlet()).apply {
+		open val warning by level("Warning", AnsiConsoleOutlet()) {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.2))
 		}
-		open var error = LogLevel(this, "Error", AnsiConsoleOutlet()).apply {
+		open val error by level("Error", AnsiConsoleOutlet()) {
 			colorInfo = ColorInfo(foreground = Color.pureWhite, background = baseRed)
 		}
-
-		override val levels = mutableListOf(
-			debug,
-			info,
-			warning,
-			error,
-		)
 
 		override var colorInfo = ColorInfo(Color.fromHsl(random.nextDouble(), 1.0, 0.75))
 	}
@@ -58,7 +52,7 @@ open class Logbook(
 		this.formatter = formatter
 	}
 
-	open val levels = mutableListOf<LogLevel>()
+	val levels = mutableListOf<LogLevel>()
 
 	var minimumLevel: LogLevel? = levels.firstOrNull()
 		set(value) {
@@ -68,5 +62,13 @@ open class Logbook(
 				level.isEnabled = enable
 			}
 			field = value
+		}
+
+
+	protected fun level(name: String, vararg outlets: LogOutlet, config: LogLevel.() -> Unit = {}) =
+		PropertyDelegateProvider { thisRef: Logbook, _ ->
+			val level = LogLevel(thisRef, name, *outlets).apply(config)
+			thisRef.levels += level
+			ReadOnlyProperty<Logbook, _> { _, _ -> level }
 		}
 }

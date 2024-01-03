@@ -2,7 +2,7 @@ package moe.micha.logbook
 
 import kotlinx.datetime.Clock
 
-class LogLevel(
+class LogLevel internal constructor(
 	val logbook: Logbook,
 	val name: String,
 	vararg outlets: LogOutlet,
