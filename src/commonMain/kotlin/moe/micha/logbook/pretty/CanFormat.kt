@@ -1,4 +1,6 @@
-package moe.micha.logbook
+package moe.micha.logbook.pretty
+
+import moe.micha.logbook.LogEntry
 
 interface CanFormat {
 	fun format(entry: LogEntry): Iterable<Chunk>? = formatter?.invoke(entry)

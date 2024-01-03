@@ -1,6 +1,10 @@
 package moe.micha.logbook
 
 import kotlinx.datetime.Clock
+import moe.micha.logbook.pretty.CanFormat
+import moe.micha.logbook.pretty.Chunk
+import moe.micha.logbook.pretty.ColorInfo
+import moe.micha.logbook.pretty.Colorable
 
 class LogLevel internal constructor(
 	val logbook: Logbook,

@@ -1,7 +1,7 @@
 package moe.micha.logbook.outlets
 
-import moe.micha.logbook.Color
-import moe.micha.logbook.ColorInfo
+import moe.micha.logbook.pretty.Color
+import moe.micha.logbook.pretty.ColorInfo
 
 open class AnsiConsoleOutlet : ConsoleOutlet() {
 	override fun colorize(text: String, colorInfo: ColorInfo): String {

@@ -1,4 +1,4 @@
-package moe.micha.logbook
+package moe.micha.logbook.pretty
 
 data class Chunk(
 	val text: String,

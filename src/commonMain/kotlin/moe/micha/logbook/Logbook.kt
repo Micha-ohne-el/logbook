@@ -6,6 +6,11 @@ import kotlin.random.Random
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import moe.micha.logbook.outlets.AnsiConsoleOutlet
+import moe.micha.logbook.pretty.CanFormat
+import moe.micha.logbook.pretty.Chunk
+import moe.micha.logbook.pretty.Color
+import moe.micha.logbook.pretty.ColorInfo
+import moe.micha.logbook.pretty.Colorable
 
 open class Logbook(
 	val name: String,

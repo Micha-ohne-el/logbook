@@ -1,4 +1,4 @@
-package moe.micha.logbook
+package moe.micha.logbook.pretty
 
 data class ColorInfo(
 	val foreground: Color? = null,

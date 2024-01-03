@@ -1,4 +1,4 @@
-package moe.micha.logbook
+package moe.micha.logbook.pretty
 
 import kotlin.math.abs
 import kotlin.math.max

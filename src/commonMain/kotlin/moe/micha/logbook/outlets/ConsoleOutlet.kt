@@ -1,8 +1,8 @@
 package moe.micha.logbook.outlets
 
-import moe.micha.logbook.Chunk
-import moe.micha.logbook.ColorInfo
 import moe.micha.logbook.LogOutlet
+import moe.micha.logbook.pretty.Chunk
+import moe.micha.logbook.pretty.ColorInfo
 
 @Suppress("RemoveRedundantQualifierName")
 abstract class ConsoleOutlet : LogOutlet {
