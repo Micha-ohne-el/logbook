@@ -13,13 +13,13 @@ jobs:
     name: Run tests on Linux
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v4
 
       - name: Run native tests
         run: ./gradlew linuxX64Test --info
 
       - name: Install Java for JVM tests
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: 8
@@ -33,7 +33,7 @@ jobs:
           browser: chrome
 
       - name: Install Node for JS tests
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: latest
 
@@ -44,7 +44,7 @@ jobs:
         run: ./gradlew jsNodeTest --info
 
       - name: Publish test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-linux
           path: |
@@ -55,13 +55,13 @@ jobs:
     name: Run tests on MacOS
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v4
 
       - name: Run native tests
         run: ./gradlew macosX64Test --info
 
       - name: Install Java for JVM tests
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: 8
@@ -75,7 +75,7 @@ jobs:
           browser: chrome
 
       - name: Install Node for JS tests
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: latest
 
@@ -86,7 +86,7 @@ jobs:
         run: ./gradlew jsNodeTest --info
 
       - name: Publish test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-macos
           path: |
@@ -97,13 +97,13 @@ jobs:
     name: Run tests on Windows
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v4
 
       - name: Run native tests
         run: ./gradlew mingwX64Test --info
 
       - name: Install Java for JVM tests
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: 8
@@ -117,7 +117,7 @@ jobs:
           browser: chrome
 
       - name: Install Node for JS tests
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: latest
 
@@ -128,7 +128,7 @@ jobs:
         run: ./gradlew jsNodeTest --info
 
       - name: Publish test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-windows
           path: |
