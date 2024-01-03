@@ -42,6 +42,13 @@ open class Logbook(
 			colorInfo = ColorInfo(foreground = Color.pureWhite, background = baseRed)
 		}
 
+		override val levels = mutableListOf(
+			debug,
+			info,
+			warning,
+			error,
+		)
+
 		override var colorInfo = ColorInfo(Color.fromHsl(random.nextDouble(), 1.0, 0.75))
 	}
 
@@ -50,4 +57,16 @@ open class Logbook(
 	fun formatWith(formatter: (LogEntry) -> Iterable<Chunk>) {
 		this.formatter = formatter
 	}
+
+	open val levels = mutableListOf<LogLevel>()
+
+	var minimumLevel: LogLevel? = levels.firstOrNull()
+		set(value) {
+			var enable = false
+			for (level in levels) {
+				if (level == value) enable = true
+				level.isEnabled = enable
+			}
+			field = value
+		}
 }

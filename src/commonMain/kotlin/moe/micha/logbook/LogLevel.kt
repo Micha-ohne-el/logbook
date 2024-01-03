@@ -10,6 +10,8 @@ class LogLevel(
 	var outlets = outlets.toMutableSet()
 
 	operator fun invoke(data: Any?) {
+		if (!isEnabled) return
+
 		val entry = LogEntry(
 			time = Clock.System.now(),
 			logbook = logbook,
@@ -33,4 +35,6 @@ class LogLevel(
 	fun formatWith(formatter: (LogEntry) -> Iterable<Chunk>) {
 		this.formatter = formatter
 	}
+
+	var isEnabled = true
 }
