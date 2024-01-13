@@ -17,6 +17,33 @@ open class Logbook(
 ) : Colorable, CanFormat {
 	open fun toChunk() = Chunk(name, colorInfo)
 
+	override var formatter: ((LogEntry) -> Iterable<Chunk>)? = null
+
+	fun formatWith(formatter: (LogEntry) -> Iterable<Chunk>) {
+		this.formatter = formatter
+	}
+
+	val levels = mutableListOf<LogLevel>()
+
+	var minimumLevel: LogLevel? = levels.firstOrNull()
+		set(value) {
+			var enable = false
+			for (level in levels) {
+				if (level == value) enable = true
+				level.isEnabled = enable
+			}
+			field = value
+		}
+
+
+	protected fun level(name: String, vararg outlets: LogOutlet, config: LogLevel.() -> Unit = {}) =
+		PropertyDelegateProvider { thisRef: Logbook, _ ->
+			val level = LogLevel(thisRef, name, *outlets).apply(config)
+			thisRef.levels += level
+			ReadOnlyProperty<Logbook, _> { _, _ -> level }
+		}
+
+
 	open class WithDefaults(
 		name: String,
 		random: Random = Random.Default,
@@ -50,30 +77,4 @@ open class Logbook(
 
 		override var colorInfo = ColorInfo(Color.fromHsl(random.nextDouble(), 1.0, 0.75))
 	}
-
-	override var formatter: ((LogEntry) -> Iterable<Chunk>)? = null
-
-	fun formatWith(formatter: (LogEntry) -> Iterable<Chunk>) {
-		this.formatter = formatter
-	}
-
-	val levels = mutableListOf<LogLevel>()
-
-	var minimumLevel: LogLevel? = levels.firstOrNull()
-		set(value) {
-			var enable = false
-			for (level in levels) {
-				if (level == value) enable = true
-				level.isEnabled = enable
-			}
-			field = value
-		}
-
-
-	protected fun level(name: String, vararg outlets: LogOutlet, config: LogLevel.() -> Unit = {}) =
-		PropertyDelegateProvider { thisRef: Logbook, _ ->
-			val level = LogLevel(thisRef, name, *outlets).apply(config)
-			thisRef.levels += level
-			ReadOnlyProperty<Logbook, _> { _, _ -> level }
-		}
 }
