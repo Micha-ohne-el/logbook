@@ -26,7 +26,11 @@ open class Logbook(
 
 	val levels = mutableListOf<LogLevel>()
 
-	var minimumLevel: LogLevel? = levels.firstOrNull()
+	var minimumLevel: LogLevel? = null
+		get() = field ?: run {
+			field = levels.firstOrNull()
+			field
+		}
 		set(value) {
 			var enable = false
 			for (level in levels) {
