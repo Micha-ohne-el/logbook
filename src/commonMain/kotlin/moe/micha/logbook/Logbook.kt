@@ -17,6 +17,7 @@ open class Logbook(
 ) : Colorable, CanFormat {
 	open fun toChunk() = Chunk(name, colorInfo)
 
+	override var colorInfo: ColorInfo? = null
 	override var formatter: ((LogEntry) -> Iterable<Chunk>)? = null
 
 	fun formatWith(formatter: (LogEntry) -> Iterable<Chunk>) {
@@ -75,6 +76,6 @@ open class Logbook(
 			colorInfo = ColorInfo(foreground = Color.pureWhite, background = baseRed)
 		}
 
-		override var colorInfo = ColorInfo(Color.fromHsl(random.nextDouble(), 1.0, 0.75))
+		override var colorInfo: ColorInfo? = ColorInfo(Color.fromHsl(random.nextDouble(), 1.0, 0.75))
 	}
 }
