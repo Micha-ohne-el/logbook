@@ -20,10 +20,6 @@ open class Logbook(
 	override var colorInfo: ColorInfo? = null
 	override var formatter: ((LogEntry) -> Iterable<Chunk>)? = null
 
-	fun formatWith(formatter: (LogEntry) -> Iterable<Chunk>) {
-		this.formatter = formatter
-	}
-
 	val levels = mutableListOf<LogLevel>()
 
 	var minimumLevel: LogLevel? = null

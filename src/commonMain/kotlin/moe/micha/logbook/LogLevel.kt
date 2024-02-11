@@ -36,9 +36,5 @@ class LogLevel internal constructor(
 
 	override var formatter: ((LogEntry) -> Iterable<Chunk>)? = null
 
-	fun formatWith(formatter: (LogEntry) -> Iterable<Chunk>) {
-		this.formatter = formatter
-	}
-
 	var isEnabled = true
 }

@@ -5,5 +5,9 @@ import moe.micha.logbook.LogEntry
 interface CanFormat {
 	fun format(entry: LogEntry): Iterable<Chunk>? = formatter?.invoke(entry)
 
-	val formatter: ((LogEntry) -> Iterable<Chunk>)? get() = null
+	var formatter: ((LogEntry) -> Iterable<Chunk>)?
+
+	fun formatWith(formatter: (LogEntry) -> Iterable<Chunk>) {
+		this.formatter = formatter
+	}
 }
