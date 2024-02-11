@@ -13,7 +13,7 @@ import moe.micha.logbook.pretty.formatWithSimplePattern
 import moe.micha.logbook.pretty.local
 
 open class Logbook(
-	val name: String,
+	open val name: String,
 ) : Colorable, CanFormat {
 	open fun toChunk() = Chunk(name, colorInfo)
 
