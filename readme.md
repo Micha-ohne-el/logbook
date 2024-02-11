@@ -15,23 +15,25 @@ Simply add a dependency on logbook to your Gradle project:
 
 ```kt
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 // for Kotlin/Multiplatform projects:
 kotlin {
-    sourceSets {
-        commonMain.configure {
-            dependencies {
-                implementation("moe.micha:logbook:$version")
-            }
-        }
-    }
+	sourceSets {
+		commonMain.configure {
+			dependencies {
+				implementation("moe.micha:logbook:$version")
+			}
+		}
+	}
 }
 
 // for Kotlin/JVM projects:
-dependencies {
-    implementation("moe.micha:logbook:$version")
+kotlin {
+	dependencies {
+		implementation("moe.micha:logbook:$version")
+	}
 }
 ```
 
