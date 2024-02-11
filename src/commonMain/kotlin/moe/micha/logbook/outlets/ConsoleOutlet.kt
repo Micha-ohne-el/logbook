@@ -1,5 +1,6 @@
 package moe.micha.logbook.outlets
 
+import moe.micha.logbook.LogEntry
 import moe.micha.logbook.LogOutlet
 import moe.micha.logbook.pretty.Chunk
 
@@ -11,6 +12,8 @@ open class ConsoleOutlet : LogOutlet {
 
 		flush()
 	}
+
+	override var formatter: ((LogEntry) -> Iterable<Chunk>)? = null
 
 
 	protected open fun print(chunk: Chunk) = print(chunk.text)
