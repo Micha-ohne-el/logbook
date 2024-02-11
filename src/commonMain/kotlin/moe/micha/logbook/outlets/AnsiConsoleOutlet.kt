@@ -3,6 +3,12 @@ package moe.micha.logbook.outlets
 import moe.micha.logbook.pretty.Color
 import moe.micha.logbook.pretty.ColorInfo
 
+/**
+ * A very commonly used outlet that will color log messages correctly for most modern terminals.
+ *
+ * For info on how the colorization is achieved, see:
+ * [Wikipedia: ANSI escape codes > Select Graphics Rendition](https://en.wikipedia.org/wiki/ANSI_escape_code#SGR)
+ */
 open class AnsiConsoleOutlet : ColoredConsoleOutlet() {
 	override fun colorize(text: String, colorInfo: ColorInfo): String {
 		if (colorInfo.foreground == null && colorInfo.background == null) {

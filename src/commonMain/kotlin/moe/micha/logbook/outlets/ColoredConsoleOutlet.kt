@@ -3,6 +3,9 @@ package moe.micha.logbook.outlets
 import moe.micha.logbook.pretty.Chunk
 import moe.micha.logbook.pretty.ColorInfo
 
+/**
+ * Base class for console outlets who wish to color their output.
+ */
 abstract class ColoredConsoleOutlet : ConsoleOutlet() {
 	override fun print(chunk: Chunk) = print(colorizeIfNeeded(chunk))
 

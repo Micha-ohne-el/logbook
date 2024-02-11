@@ -12,6 +12,30 @@ import moe.micha.logbook.pretty.Colorable
 import moe.micha.logbook.pretty.formatWithSimplePattern
 import moe.micha.logbook.pretty.local
 
+/**
+ * Base class for all logbooks.
+ *
+ * ## Usage
+ * To create your own logbook, create a subclass of [Logbook].
+ * You can make it an object, but it is recommended to use the following pattern:
+ * ```kt
+ * abstract class MyLog : Logbook() {
+ *     companion object : MyLog()
+ * }
+ * ```
+ * This way, you can create another logger that inherits from your base logger:
+ * ```kt
+ * abstract class MySpecificLog : MyLog() {
+ *     companion object : MySpecificLog()
+ * }
+ * ```
+ *
+ * ## Note
+ * The [Logbook] class itself comes with the most minimal configuration possible, **probably too minimal for you**.
+ * For this reason, you can choose to use [Logbook.WithDefaults] instead, which comes preconfigured with four [LogLevel]s –
+ * each set up with an [AnsiConsoleOutlet] – a nice format, and a randomized name color so you can tell different loggers apart.
+ * See [Logbook.WithDefaults] for more info.
+ */
 abstract class Logbook : Colorable, CanFormat {
 	open val name: String = this::class.simpleName ?: throw Error("Anonymous Logbooks must provide a name explicitly.")
 
@@ -59,6 +83,28 @@ abstract class Logbook : Colorable, CanFormat {
 		level(name, placeBefore = null, outlets = outlets, config)
 
 
+	/**
+	 * Convenience class that provides a lot of useful features that most logbooks will want.
+	 * You can override anything you don't like, of course.
+	 *
+	 * ## Features
+	 * ### Four preconfigured [LogLevel]s
+	 * * [debug] – green text, no background
+	 * * [info] – yellow text, no background
+	 * * [warning] – red text, no background
+	 * * [error] – white text, bright red background
+	 *
+	 * **The `minimumLogLevel` is set to [info].**
+	 *
+	 * ### There is a default format set
+	 * ```
+	 * [DD.MM.YYYY@hh:mm:ss.fff] LogbookName : LogLevelName – data
+	 * ```
+	 * `LogbookName` has a randomly assigned color per logbook. This helps to distinguish logbooks from one another.
+	 * `LogLevelName` has a specific color per log level, as specified above.
+	 *
+	 * ### All levels output to an [AnsiConsoleOutlet].
+	 */
 	abstract class WithDefaults(random: Random = Random.Default) : Logbook() {
 		override fun format(entry: LogEntry) =
 			listOf(
