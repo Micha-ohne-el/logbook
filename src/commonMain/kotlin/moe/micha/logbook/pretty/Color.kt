@@ -4,6 +4,11 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
+/**
+ * Set of three colors (red, green, and blue) which represent any color.
+ *
+ * @throws AssertionError when any of [red], [green], and [blue] is not in the range `0.0..1.0`.
+ */
 data class Color(
 	val red: Double,
 	val green: Double,
@@ -48,6 +53,13 @@ data class Color(
 	private val max by lazy { maxOf(red, green, blue) }
 
 	companion object {
+		/**
+		 * Constructs a new [Color] from hue, saturation, and luminance.
+		 *
+		 * @param hue values outside the range `0.0..1.0` are wrapped (e.g. `1.5 -> 0.5` and `-1.25 -> 0.75`).
+		 * @param saturation values outside the range `0.0..1.0` are clamped (e.g. `1.5 -> 1.0` and `-100 -> 0.0`).
+		 * @param luminance values outside the range `0.0..1.0` are clamped (e.g. `1.5 -> 1.0` and `-100 -> 0.0`).
+		 */
 		// https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB_alternative
 		fun fromHsl(hue: Double, saturation: Double, luminance: Double): Color {
 			val h = wrap(hue, 0.0, 1.0)
