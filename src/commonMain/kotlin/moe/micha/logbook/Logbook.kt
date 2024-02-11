@@ -72,16 +72,16 @@ abstract class Logbook : Colorable, CanFormat {
 				Chunk(entry.data.toString()),
 			)
 
-		var baseRed = Color.fromHsl(-0.05, 0.9, 0.6)
+		protected var baseRed = Color.fromHsl(-0.05, 0.9, 0.6)
 
 		open val debug by level("Debug", AnsiConsoleOutlet()) {
-			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.6))
+			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.8))
 		}
 		open val info by level("Info", AnsiConsoleOutlet()) {
-			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.4))
+			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.6))
 		}
 		open val warning by level("Warning", AnsiConsoleOutlet()) {
-			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.2))
+			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.4))
 		}
 		open val error by level("Error", AnsiConsoleOutlet()) {
 			colorInfo = ColorInfo(foreground = Color.pureWhite, background = baseRed)
