@@ -88,5 +88,10 @@ abstract class Logbook : Colorable, CanFormat {
 		}
 
 		override var colorInfo: ColorInfo? = ColorInfo(Color.fromHsl(random.nextDouble(), 1.0, 0.75))
+
+		init {
+			@Suppress("LeakingThis")
+			minimumLevel = info
+		}
 	}
 }
