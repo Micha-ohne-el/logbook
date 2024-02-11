@@ -27,21 +27,22 @@ jobs:
       - name: Run JVM tests
         run: ./gradlew jvmTest --info
 
-      - name: Install browser for JS tests
-        uses: abhi1693/setup-browser@v0.3.5
-        with:
-          browser: chrome
+      # Disabled until nested tests form JS are supported by Kotest:
+      #     - name: Install browser for JS tests
+      #       uses: abhi1693/setup-browser@v0.3.5
+      #       with:
+      #         browser: chrome
 
-      - name: Install Node for JS tests
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
+      #     - name: Install Node for JS tests
+      #       uses: actions/setup-node@v4
+      #       with:
+      #         node-version: latest
 
-      - name: Run JS Browser tests
-        run: ./gradlew jsBrowserTest --info
+      #     - name: Run JS Browser tests
+      #       run: ./gradlew jsBrowserTest --info
 
-      - name: Run JS Node tests
-        run: ./gradlew jsNodeTest --info
+      #     - name: Run JS Node tests
+      #       run: ./gradlew jsNodeTest --info
 
       - name: Publish test results
         uses: actions/upload-artifact@v4
@@ -69,21 +70,22 @@ jobs:
       - name: Run JVM tests
         run: ./gradlew jvmTest --info
 
-      - name: Install browser for JS tests
-        uses: abhi1693/setup-browser@v0.3.5
-        with:
-          browser: chrome
+      # Disabled until nested tests form JS are supported by Kotest:
+      #     - name: Install browser for JS tests
+      #       uses: abhi1693/setup-browser@v0.3.5
+      #       with:
+      #         browser: chrome
 
-      - name: Install Node for JS tests
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
+      #     - name: Install Node for JS tests
+      #       uses: actions/setup-node@v4
+      #       with:
+      #         node-version: latest
 
-      - name: Run JS Browser tests
-        run: ./gradlew jsBrowserTest --info
+      #     - name: Run JS Browser tests
+      #       run: ./gradlew jsBrowserTest --info
 
-      - name: Run JS Node tests
-        run: ./gradlew jsNodeTest --info
+      #     - name: Run JS Node tests
+      #       run: ./gradlew jsNodeTest --info
 
       - name: Publish test results
         uses: actions/upload-artifact@v4
@@ -111,21 +113,22 @@ jobs:
       - name: Run JVM tests
         run: ./gradlew jvmTest --info
 
-      - name: Install browser for JS tests
-        uses: abhi1693/setup-browser@v0.3.5
-        with:
-          browser: chrome
+      # Disabled until nested tests form JS are supported by Kotest:
+      #     - name: Install browser for JS tests
+      #       uses: abhi1693/setup-browser@v0.3.5
+      #       with:
+      #         browser: chrome
 
-      - name: Install Node for JS tests
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
+      #     - name: Install Node for JS tests
+      #       uses: actions/setup-node@v4
+      #       with:
+      #         node-version: latest
 
-      - name: Run JS Browser tests
-        run: ./gradlew jsBrowserTest --info
+      #     - name: Run JS Browser tests
+      #       run: ./gradlew jsBrowserTest --info
 
-      - name: Run JS Node tests
-        run: ./gradlew jsNodeTest --info
+      #     - name: Run JS Node tests
+      #       run: ./gradlew jsNodeTest --info
 
       - name: Publish test results
         uses: actions/upload-artifact@v4
