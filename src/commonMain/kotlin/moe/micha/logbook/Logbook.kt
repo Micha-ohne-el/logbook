@@ -37,12 +37,26 @@ open class Logbook(
 		}
 
 
-	protected fun level(name: String, vararg outlets: LogOutlet, config: LogLevel.() -> Unit = {}) =
+	protected fun level(
+		name: String,
+		placeBefore: LogLevel?,
+		vararg outlets: LogOutlet,
+		config: LogLevel.() -> Unit = {},
+	) =
 		PropertyDelegateProvider { thisRef: Logbook, _ ->
 			val level = LogLevel(thisRef, name, *outlets).apply(config)
-			thisRef.levels += level
+
+			when (placeBefore) {
+				null -> thisRef.levels += level
+				!in thisRef.levels -> throw IllegalArgumentException("Could not place new level before level $placeBefore because said level is not registered on this LogBook.")
+				else -> thisRef.levels.add(thisRef.levels.indexOf(placeBefore), level)
+			}
+
 			ReadOnlyProperty<Logbook, _> { _, _ -> level }
 		}
+
+	protected fun level(name: String, vararg outlets: LogOutlet, config: LogLevel.() -> Unit = {}) =
+		level(name, placeBefore = null, outlets = outlets, config)
 
 
 	open class WithDefaults(
