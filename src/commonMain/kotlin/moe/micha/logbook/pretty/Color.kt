@@ -38,9 +38,9 @@ data class Color(
 
 
 	init {
-		if (!red.isFinite()) throw ArithmeticException("All arguments must be finite, but red isn't (value=$red).")
-		if (!green.isFinite()) throw ArithmeticException("All arguments must be finite, but green isn't (value=$green).")
-		if (!blue.isFinite()) throw ArithmeticException("All arguments must be finite, but blue isn't (value=$blue).")
+		if (red !in 0.0..1.0) throw AssertionError("All arguments must be in the range 0.0..1.0, but red isn't (value=$red).")
+		if (green !in 0.0..1.0) throw AssertionError("All arguments must be in the range 0.0..1.0, but green isn't (value=$green).")
+		if (blue !in 0.0..1.0) throw AssertionError("All arguments must be in the range 0.0..1.0, but blue isn't (value=$blue).")
 	}
 
 
