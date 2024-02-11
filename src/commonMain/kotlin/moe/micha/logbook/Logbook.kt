@@ -12,9 +12,9 @@ import moe.micha.logbook.pretty.Colorable
 import moe.micha.logbook.pretty.formatWithSimplePattern
 import moe.micha.logbook.pretty.local
 
-open class Logbook(
-	open val name: String,
-) : Colorable, CanFormat {
+abstract class Logbook : Colorable, CanFormat {
+	open val name: String = this::class.simpleName ?: throw Error("Anonymous Logbooks must provide a name explicitly.")
+
 	open fun toChunk() = Chunk(name, colorInfo)
 
 	override var colorInfo: ColorInfo? = null
@@ -59,10 +59,7 @@ open class Logbook(
 		level(name, placeBefore = null, outlets = outlets, config)
 
 
-	open class WithDefaults(
-		name: String,
-		random: Random = Random.Default,
-	) : Logbook(name) {
+	abstract class WithDefaults(random: Random = Random.Default) : Logbook() {
 		override fun format(entry: LogEntry) =
 			listOf(
 				Chunk("["),
