@@ -62,9 +62,9 @@ data class Color(
 		 */
 		// https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB_alternative
 		fun fromHsl(hue: Double, saturation: Double, luminance: Double): Color {
-			val h = wrap(hue, 0.0, 1.0)
-			val s = clamp(saturation, 0.0, 1.0)
-			val l = clamp(luminance, 0.0, 1.0)
+			val h = hue wrapIn 0.0..1.0
+			val s = saturation clampIn 0.0..1.0
+			val l = luminance clampIn 0.0..1.0
 
 			fun f(n: Double): Double {
 				val a = s * minOf(l, 1.0 - l)
@@ -86,8 +86,8 @@ data class Color(
 		val pureBlack = Color(0.0, 0.0, 0.0)
 
 
-		private inline fun clamp(value: Double, minimum: Double, maximum: Double) = max(minimum, min(value, maximum))
+		private infix fun Double.clampIn(range: ClosedRange<Double>) = max(range.start, min(this, range.endInclusive))
 
-		private inline fun wrap(value: Double, minimum: Double, maximum: Double) = value % (maximum - minimum) + minimum
+		private infix fun Double.wrapIn(range: ClosedRange<Double>) = this % (range.endInclusive - range.start) + range.start
 	}
 }
