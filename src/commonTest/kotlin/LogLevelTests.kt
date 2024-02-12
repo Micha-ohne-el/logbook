@@ -2,12 +2,11 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import moe.micha.logbook.LogLevel
-import moe.micha.logbook.Logbook
 
 class LogLevelTests : DescribeSpec({
 	val outlet = TestOutlet()
 
-	val logbook = object : Logbook("test") {
+	val logbook = object : TestLogbook() {
 		val debug by level("debug", outlet)
 		val info by level("info", outlet)
 	}

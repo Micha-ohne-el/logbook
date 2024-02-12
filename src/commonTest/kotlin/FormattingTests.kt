@@ -15,7 +15,7 @@ class FormattingTests : DescribeSpec({
 
 	describe("Logbook.${Logbook::formatter.name}") {
 		it("formats the log entry") {
-			val logbook = object : Logbook("test") {
+			val logbook = object : TestLogbook() {
 				override var formatter: ((LogEntry) -> Iterable<Chunk>)? = { entry ->
 					listOf(Chunk("TEST: "), Chunk(entry.data.toString()))
 				}
@@ -31,7 +31,7 @@ class FormattingTests : DescribeSpec({
 
 	describe("LogLevel.${LogLevel::formatter.name}") {
 		it("formats the log entry") {
-			val logbook = object : Logbook("test") {
+			val logbook = object : TestLogbook() {
 				val level by level("level", outlet) {
 					formatWith { entry ->
 						listOf(Chunk("TEST2: "), Chunk(entry.data.toString()))
@@ -54,7 +54,7 @@ class FormattingTests : DescribeSpec({
 		}
 
 		it("formats the log entry") {
-			val logbook = object : Logbook("test") {
+			val logbook = object : TestLogbook() {
 				val level by level("level", outlet)
 			}
 
@@ -69,7 +69,7 @@ class FormattingTests : DescribeSpec({
 			listOf(Chunk("Outlet: "), Chunk(entry.data.toString()))
 		}
 
-		val logbook = object : Logbook("test") {
+		val logbook = object : TestLogbook() {
 			init {
 				formatWith { entry ->
 					listOf(Chunk("Logbook: "), Chunk(entry.data.toString()))

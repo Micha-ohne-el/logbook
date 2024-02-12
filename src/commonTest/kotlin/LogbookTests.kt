@@ -9,7 +9,7 @@ import moe.micha.logbook.pretty.ColorInfo
 class LogbookTests : DescribeSpec({
 	describe(Logbook::toChunk) {
 		it("returns a chunk with the text and colorInfo") {
-			val logbook = Logbook("test")
+			val logbook = object : TestLogbook() {}
 
 			logbook.toChunk() shouldBe Chunk("test", null)
 
@@ -28,7 +28,7 @@ class LogbookTests : DescribeSpec({
 
 	describe(Logbook::formatWith) {
 		it("sets the formatter") {
-			val logbook = Logbook("test")
+			val logbook = object : TestLogbook() {}
 
 			logbook.formatter shouldBe null
 
@@ -40,27 +40,27 @@ class LogbookTests : DescribeSpec({
 
 	describe(Logbook::minimumLevel) {
 		it("defaults to the first log level") {
-			var logbook = Logbook("no log levels")
+			val logbook1 = object : TestLogbook() {}
 
-			logbook.minimumLevel shouldBe null
+			logbook1.minimumLevel shouldBe null
 
-			logbook = object : Logbook("one log level") {
+			val logbook2 = object : TestLogbook() {
 				val testLevel by level("testLevel")
 			}
 
-			logbook.minimumLevel!!.name shouldBe "testLevel"
+			logbook2.minimumLevel!!.name shouldBe "testLevel"
 
-			logbook = object : Logbook("several log levels") {
+			val logbook3 = object : TestLogbook() {
 				val levelX by level("x")
 				val levelY by level("y")
 				val levelA by level("a")
 			}
 
-			logbook.minimumLevel!!.name shouldBe "x"
+			logbook3.minimumLevel!!.name shouldBe "x"
 		}
 
 		it("enables it and all levels above") {
-			val logbook = object : Logbook("test") {
+			val logbook = object : TestLogbook() {
 				val level0 by level("0") { isEnabled = false }
 				val level1 by level("1") { isEnabled = false }
 				val level2 by level("2") { isEnabled = false }
@@ -78,7 +78,7 @@ class LogbookTests : DescribeSpec({
 		}
 
 		it("disables all levels below") {
-			val logbook = object : Logbook("test") {
+			val logbook = object : TestLogbook() {
 				val level0 by level("0")
 				val level1 by level("1")
 				val level2 by level("2")
