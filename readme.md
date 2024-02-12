@@ -57,3 +57,8 @@ best and I'll see if I can fix some issues if there are any :)
 * Handle multi-line log messages (such as stack traces).
 * Improve timestamp formatting by using Chunks as well.
 	* Extend Chunks to be able to have a min and max width, padding, alignment, etc.
+* Add some sort of grouping mechanism (such as JavaScript's `console.group`).
+	* Maybe provide two separate functions – `groupImplicitly` and `groupExplicitly`.
+	  `groupExplicitly` would take a block in which a sublogger is accessible, which prints to the group.
+	  `groupImplicitly` would cause all following calls to the logger to be treated as though they were done on a sublogger.
+	  Just some ideas.
