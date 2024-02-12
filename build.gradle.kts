@@ -12,7 +12,7 @@ plugins {
 
 group = "moe.micha"
 description = "Kotlin/Multiplatform logging library"
-version = "0.1.0"
+version = "0.2.0"
 
 object Versions {
 	const val datetime = "0.5.0"
