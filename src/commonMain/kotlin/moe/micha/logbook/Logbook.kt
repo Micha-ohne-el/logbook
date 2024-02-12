@@ -37,7 +37,9 @@ import moe.micha.logbook.pretty.local
  * See [Logbook.WithDefaults] for more info.
  */
 abstract class Logbook : Colorable, CanFormat {
-	open val name: String = this::class.simpleName ?: throw Error("Anonymous Logbooks must provide a name explicitly.")
+	open val name: String by lazy {
+		this::class.simpleName ?: throw Error("Anonymous Logbooks must provide a name explicitly.")
+	}
 
 	open fun toChunk() = Chunk(name, colorInfo)
 
