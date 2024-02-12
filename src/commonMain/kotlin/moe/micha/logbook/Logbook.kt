@@ -65,13 +65,13 @@ abstract class Logbook : Colorable, CanFormat, HasOutlets {
 
 
 	protected fun level(
-		name: String,
+		name: String? = null,
 		placeBefore: LogLevel?,
 		vararg outlets: LogOutlet,
 		config: LogLevel.() -> Unit = {},
 	) =
-		PropertyDelegateProvider { thisRef: Logbook, _ ->
-			val level = LogLevel(thisRef, name, *outlets).apply(config)
+		PropertyDelegateProvider { thisRef: Logbook, property ->
+			val level = LogLevel(thisRef, name ?: property.name, *outlets).apply(config)
 
 			when (placeBefore) {
 				null -> thisRef.levels += level
@@ -82,8 +82,14 @@ abstract class Logbook : Colorable, CanFormat, HasOutlets {
 			ReadOnlyProperty<Logbook, _> { _, _ -> level }
 		}
 
+	protected fun level(placeBefore: LogLevel?, vararg outlets: LogOutlet, config: LogLevel.() -> Unit = {}) =
+		level(name = null, placeBefore, outlets = outlets, config)
+
 	protected fun level(name: String, vararg outlets: LogOutlet, config: LogLevel.() -> Unit = {}) =
 		level(name, placeBefore = null, outlets = outlets, config)
+
+	protected fun level(vararg outlets: LogOutlet, config: LogLevel.() -> Unit = {}) =
+		level(name = null, placeBefore = null, outlets = outlets, config)
 
 
 	/**
@@ -125,16 +131,16 @@ abstract class Logbook : Colorable, CanFormat, HasOutlets {
 
 		protected var baseRed = Color.fromHsl(-0.05, 0.9, 0.6)
 
-		open val debug by level("Debug") {
+		open val debug by level {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.8))
 		}
-		open val info by level("Info") {
+		open val info by level {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.6))
 		}
-		open val warning by level("Warning") {
+		open val warning by level {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.4))
 		}
-		open val error by level("Error") {
+		open val error by level {
 			colorInfo = ColorInfo(foreground = Color.pureWhite, background = baseRed)
 		}
 
