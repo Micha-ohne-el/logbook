@@ -37,5 +37,18 @@ class LogLevelTests : DescribeSpec({
 
 			outlet.logs.first() shouldBe listOf()
 		}
+
+		it("calls send on logbook outlets") {
+			val logbookOutlet = TestOutlet()
+			logbook.outlets += logbookOutlet
+			logbook.formatWith {
+				listOf()
+			}
+
+			logbook.debug("")
+
+			outlet.logs.size shouldBe 1
+			logbookOutlet.logs.size shouldBe 1
+		}
 	}
 })

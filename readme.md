@@ -54,7 +54,6 @@ best and I'll see if I can fix some issues if there are any :)
 
 ## To Do
 
-* Make an interface `HasOutlets` and make `LogLevel` and `Logbook` implement it.
 * Make `by level` use the name of the property as the level name by default.
 * Make `Logbook.WithDefaults`'s random logbook color stable (i.e. use hashing instead of randomness).
 * Handle multi-line log messages (such as stack traces).

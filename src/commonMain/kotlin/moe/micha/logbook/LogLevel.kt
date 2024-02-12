@@ -10,8 +10,8 @@ class LogLevel internal constructor(
 	val logbook: Logbook,
 	val name: String,
 	vararg outlets: LogOutlet,
-) : Colorable, CanFormat {
-	var outlets = outlets.toMutableSet()
+) : Colorable, CanFormat, HasOutlets {
+	override var outlets = outlets.toMutableSet()
 
 	operator fun invoke(data: Any?) {
 		if (!isEnabled) return
@@ -23,7 +23,7 @@ class LogLevel internal constructor(
 			data = data,
 		)
 
-		for (outlet in outlets) {
+		for (outlet in outlets + logbook.outlets) {
 			val formatted = outlet.format(entry) ?: format(entry) ?: logbook.format(entry) ?: listOf(Chunk(data.toString()))
 
 			outlet.send(formatted)

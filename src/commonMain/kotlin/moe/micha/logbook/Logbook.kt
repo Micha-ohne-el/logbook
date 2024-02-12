@@ -36,7 +36,7 @@ import moe.micha.logbook.pretty.local
  * each set up with an [AnsiConsoleOutlet] – a nice format, and a randomized name color so you can tell different loggers apart.
  * See [Logbook.WithDefaults] for more info.
  */
-abstract class Logbook : Colorable, CanFormat {
+abstract class Logbook : Colorable, CanFormat, HasOutlets {
 	open val name: String by lazy {
 		this::class.simpleName ?: throw Error("Anonymous Logbooks must provide a name explicitly.")
 	}
@@ -45,6 +45,7 @@ abstract class Logbook : Colorable, CanFormat {
 
 	override var colorInfo: ColorInfo? = null
 	override var formatter: ((LogEntry) -> Iterable<Chunk>)? = null
+	override var outlets = mutableSetOf<LogOutlet>()
 
 	val levels = mutableListOf<LogLevel>()
 
@@ -105,7 +106,7 @@ abstract class Logbook : Colorable, CanFormat {
 	 * `LogbookName` has a randomly assigned color per logbook. This helps to distinguish logbooks from one another.
 	 * `LogLevelName` has a specific color per log level, as specified above.
 	 *
-	 * ### All levels output to an [AnsiConsoleOutlet].
+	 * ### An [AnsiConsoleOutlet] is preconfigured for the whole logbook.
 	 */
 	abstract class WithDefaults(random: Random = Random.Default) : Logbook() {
 		override fun format(entry: LogEntry) =
@@ -120,18 +121,20 @@ abstract class Logbook : Colorable, CanFormat {
 				Chunk(entry.data.toString()),
 			)
 
+		override var outlets: MutableSet<LogOutlet> = mutableSetOf(AnsiConsoleOutlet())
+
 		protected var baseRed = Color.fromHsl(-0.05, 0.9, 0.6)
 
-		open val debug by level("Debug", AnsiConsoleOutlet()) {
+		open val debug by level("Debug") {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.8))
 		}
-		open val info by level("Info", AnsiConsoleOutlet()) {
+		open val info by level("Info") {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.6))
 		}
-		open val warning by level("Warning", AnsiConsoleOutlet()) {
+		open val warning by level("Warning") {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.4))
 		}
-		open val error by level("Error", AnsiConsoleOutlet()) {
+		open val error by level("Error") {
 			colorInfo = ColorInfo(foreground = Color.pureWhite, background = baseRed)
 		}
 
