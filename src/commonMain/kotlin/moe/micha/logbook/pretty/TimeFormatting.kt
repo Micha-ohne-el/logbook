@@ -48,12 +48,6 @@ private val simpleFormat = setOf(
 
 		nanoseconds.substring(0, minOf(nanoseconds.length, width))
 	},
-	SimpleFormatSymbol('C', Alignment.Left, ' ') { dateTime ->
-		if (dateTime.year < 0) "BC" else "AD"
-	},
-	SimpleFormatSymbol('E', Alignment.Left, ' ') { dateTime ->
-		if (dateTime.year < 0) "BCE" else "CE"
-	}
 )
 
 private abstract class SimpleFormatSymbol(
