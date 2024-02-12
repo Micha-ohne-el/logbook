@@ -60,3 +60,4 @@ best and I'll see if I can fix some issues if there are any :)
 * Handle multi-line log messages (such as stack traces).
 * Improve timestamp formatting by using Chunks as well.
 	* Extend Chunks to be able to have a min and max width, padding, alignment, etc.
+* Make ci pipeline upload test results on failure too.
