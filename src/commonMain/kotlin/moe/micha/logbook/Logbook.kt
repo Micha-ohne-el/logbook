@@ -2,7 +2,6 @@ package moe.micha.logbook
 
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
-import kotlin.random.Random
 import moe.micha.logbook.outlets.AnsiConsoleOutlet
 import moe.micha.logbook.pretty.CanFormat
 import moe.micha.logbook.pretty.Chunk
@@ -114,7 +113,7 @@ abstract class Logbook : Colorable, CanFormat, HasOutlets {
 	 *
 	 * ### An [AnsiConsoleOutlet] is preconfigured for the whole logbook.
 	 */
-	abstract class WithDefaults(random: Random = Random.Default) : Logbook() {
+	abstract class WithDefaults : Logbook() {
 		override fun format(entry: LogEntry) =
 			listOf(
 				Chunk("["),
@@ -144,7 +143,12 @@ abstract class Logbook : Colorable, CanFormat, HasOutlets {
 			colorInfo = ColorInfo(foreground = Color.pureWhite, background = baseRed)
 		}
 
-		override var colorInfo: ColorInfo? = ColorInfo(Color.fromHsl(random.nextDouble(), 1.0, 0.75))
+		override var colorInfo: ColorInfo? = null
+			get() = field ?: run {
+				field = ColorInfo(Color.fromHsl(name.hashCode().toDouble() / Int.MAX_VALUE, 1.0, 0.75))
+				field
+			}
+
 
 		init {
 			@Suppress("LeakingThis")
