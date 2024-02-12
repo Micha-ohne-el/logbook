@@ -11,6 +11,28 @@ val Instant.utc get() = toLocalDateTime(TimeZone.UTC)
 
 fun LocalDateTime.formatAsStandard() = toString()
 
+/**
+ * Format according to a simple (but limited) formatting pattern.
+ *
+ * Each letter in the pattern corresponds to one particular part of a timestamp.
+ * Repeating a letter sets the minimum length of that particular part.
+ * For instance, where `h:m:s` would produce `1:2:3`, `hh:mm:ss` would produce `01:02:02`.
+ * All parts are padded with 0s and right-aligned, except `f` (fraction of a second) which is left-aligned.
+ * This allows simple usage in the most common cases. For example:
+ * `mm:hh:ss.fff` displays the time up to the millisecond, while `mm:hh:ss.ffffff` shows microseconds.
+ * One more special case is `Y`, which is a 4-digit number, except when specified only once or twice,
+ * in which case it is treated like a two-digit number.
+ * I.e. `YYYYYY` produces `002024` while `YY` produces `24` (omitting the century).
+ *
+ * Supported letters are:
+ * * `Y` – the year (4 digits or 2 digits as mentioned above)
+ * * `M` – the month of the year (1 to 12)
+ * * `D` – the day of the month (1 to 31)
+ * * `h` – the hour of the day (0 to 23)
+ * * `m` – the minute of the hour (0 to 59)
+ * * `s` – the second of the minute (0 to 59)
+ * * `f` – the fraction of the second (think of this as the fractional part of a number between 0 and 1)
+ */
 fun LocalDateTime.formatWithSimplePattern(pattern: String): String {
 	var formatted = pattern
 
