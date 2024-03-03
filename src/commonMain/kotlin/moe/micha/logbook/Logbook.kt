@@ -130,16 +130,16 @@ abstract class Logbook : Colorable, CanFormat, HasOutlets {
 
 		protected var baseRed = Color.fromHsl(-0.05, 0.9, 0.6)
 
-		open val debug by level {
+		val debug by level {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.8))
 		}
-		open val info by level {
+		val info by level {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.6))
 		}
-		open val warning by level {
+		val warning by level {
 			colorInfo = ColorInfo(foreground = baseRed.copyHsl(baseRed.hue + 0.4))
 		}
-		open val error by level {
+		val error by level {
 			colorInfo = ColorInfo(foreground = Color.pureWhite, background = baseRed)
 		}
 
@@ -151,7 +151,6 @@ abstract class Logbook : Colorable, CanFormat, HasOutlets {
 
 
 		init {
-			@Suppress("LeakingThis")
 			minimumLevel = info
 		}
 	}
