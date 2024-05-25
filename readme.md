@@ -63,3 +63,6 @@ best and I'll see if I can fix some issues if there are any :)
       `groupExplicitly` would take a block in which a sublogger is accessible, which prints to the group.
       `groupImplicitly` would cause all following calls to the logger to be treated as though they were done on a sublogger.
       Just some ideas.
+* Add a simple file outlet.
+    * Add option to either append to existing file or clear file on every boot.
+* Add a rotating file outlet.
