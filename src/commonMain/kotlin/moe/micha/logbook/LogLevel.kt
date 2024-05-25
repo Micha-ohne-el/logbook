@@ -24,7 +24,7 @@ class LogLevel internal constructor(
 		)
 
 		for (outlet in outlets + logbook.outlets) {
-			val formatted = outlet.format(entry) ?: format(entry) ?: logbook.format(entry) ?: listOf(Chunk(data.toString()))
+			val formatted = outlet.format(entry) ?: format(entry) ?: logbook.format(entry) ?: formatFallback(entry)
 
 			outlet.send(formatted)
 		}
@@ -37,4 +37,7 @@ class LogLevel internal constructor(
 	override var formatter: ((LogEntry) -> Iterable<Chunk>)? = null
 
 	var isEnabled = true
+
+
+	private fun formatFallback(entry: LogEntry) = listOf(Chunk(entry.data.toString()))
 }
