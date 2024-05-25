@@ -2,6 +2,7 @@ package moe.micha.logbook
 
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KClass
 import moe.micha.logbook.outlets.AnsiConsoleOutlet
 import moe.micha.logbook.pretty.CanFormat
 import moe.micha.logbook.pretty.Chunk
@@ -37,7 +38,7 @@ import moe.micha.logbook.pretty.local
  */
 abstract class Logbook : Colorable, CanFormat, HasOutlets {
 	open val name: String by lazy {
-		this::class.simpleName ?: throw Error("Anonymous Logbooks must provide a name explicitly.")
+		this::class.getLoggerName() ?: throw Error("Could not infer Logbook name. Please specify the name explicitly.")
 	}
 
 	open fun toChunk() = Chunk(name, colorInfo)
@@ -89,6 +90,30 @@ abstract class Logbook : Colorable, CanFormat, HasOutlets {
 
 	protected fun level(vararg outlets: LogOutlet, config: LogLevel.() -> Unit = {}) =
 		level(name = null, placeBefore = null, outlets = outlets, config)
+
+
+	private fun KClass<*>.getLoggerName(): String? {
+		for (name in listOfNotNull(simpleName, qualifiedName)) {
+			for (part in name.split(".").asReversed()) {
+				val withoutSuffix = part.removeLogSuffix()
+
+				if (withoutSuffix.isNotBlank()) return withoutSuffix.replaceFirstChar(Char::uppercase)
+			}
+		}
+
+		return null
+	}
+
+	private fun String.removeLogSuffix(): String =
+		if (endsWith("log", ignoreCase = true)) {
+			substring(0, length - 3).removeLogSuffix()
+		} else if (endsWith("logger", ignoreCase = true)) {
+			substring(0, length - 6).removeLogSuffix()
+		} else if (endsWith("logbook", ignoreCase = true)) {
+			substring(0, length - 7).removeLogSuffix()
+		} else {
+			this
+		}
 
 
 	/**

@@ -1,5 +1,5 @@
-import moe.micha.logbook.LogEntry
-import moe.micha.logbook.LogOutlet
+package moe.micha.logbook
+
 import moe.micha.logbook.pretty.Chunk
 
 class TestOutlet : LogOutlet {

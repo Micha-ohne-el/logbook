@@ -1,9 +1,7 @@
+package moe.micha.logbook
+
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
-import moe.micha.logbook.LogEntry
-import moe.micha.logbook.LogLevel
-import moe.micha.logbook.LogOutlet
-import moe.micha.logbook.Logbook
 import moe.micha.logbook.pretty.Chunk
 
 class FormattingTests : DescribeSpec({

@@ -1,7 +1,8 @@
+package moe.micha.logbook
+
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import moe.micha.logbook.LogLevel
 
 class LogLevelTests : DescribeSpec({
 	val outlet = TestOutlet()

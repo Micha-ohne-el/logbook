@@ -1,7 +1,8 @@
+package moe.micha.logbook
+
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import moe.micha.logbook.Logbook
 import moe.micha.logbook.pretty.Chunk
 import moe.micha.logbook.pretty.Color
 import moe.micha.logbook.pretty.ColorInfo
@@ -95,4 +96,38 @@ class LogbookTests : DescribeSpec({
 			logbook.level2.isEnabled shouldBe true
 		}
 	}
+
+	describe(Logbook::name) {
+		it("can be set") {
+			class TestLogger : Logbook() {
+				override val name = "testing 123"
+			}
+
+			TestLogger().name shouldBe "testing 123"
+		}
+
+		it("is the class name") {
+			class Test1 : Logbook()
+
+			Test1().name shouldBe "Test1"
+		}
+
+		it("removes the suffix") {
+			class TestLog : Logbook()
+			class TestLogger : Logbook()
+			class TestLogbook : Logbook()
+
+			TestLog().name shouldBe "Test"
+			TestLogger().name shouldBe "Test"
+			TestLogbook().name shouldBe "Test"
+		}
+
+		it("uses package name if class name is a discouraged one") {
+			// this will break if the package name changes. It's not ideal but I can't really think of a good way to avoid this.
+			Log().name shouldBe "Micha"
+		}
+	}
 })
+
+// needs to be placed down here in order to have a qualifiedName.
+class Log : Logbook()
