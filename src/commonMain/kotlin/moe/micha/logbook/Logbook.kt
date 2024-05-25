@@ -127,7 +127,7 @@ abstract class Logbook : Colorable, CanFormat, HasOutlets {
 	 * * [warning] – yellow text, no background
 	 * * [error] – white text, bright red background
 	 *
-	 * **The `minimumLogLevel` is set to [info].**
+	 * **The [minimumLevel] is set to [info].**
 	 *
 	 * ### There is a default format set
 	 * ```
