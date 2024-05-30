@@ -34,6 +34,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 8
+
       - name: Publish artifacts to Maven Central
         run: ./gradlew publish --info
 
@@ -50,6 +56,12 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 8
 
       - name: Generate Dokka documentation
         run: ./gradlew dokkaHtml --info
