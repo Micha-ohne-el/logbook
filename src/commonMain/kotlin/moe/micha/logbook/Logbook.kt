@@ -39,7 +39,7 @@ abstract class Logbook(
 	private val normalizeName: NameNormalizer = defaultNameNormalizer,
 ) : Colorable, CanFormat, HasOutlets {
 	open val name: String by lazy {
-		normalizeName(this::class) ?: throw Error("Could not infer Logbook name. Please specify the name explicitly.")
+		normalizeName(this::class)
 	}
 
 	open fun toChunk() = Chunk(name, colorInfo)

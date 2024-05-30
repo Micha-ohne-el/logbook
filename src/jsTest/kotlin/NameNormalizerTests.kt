@@ -35,9 +35,17 @@ class NameNormalizerTests : DescribeSpec({
 
 			defaultNameNormalizer(kClass) shouldBe "Test"
 		}
+
+		it("returns special name if simpleName is null") {
+			val kClass = Logbook::class.mock(simpleName = null, hashCode = 12345)
+
+			defaultNameNormalizer(kClass) shouldBe "<Unnamed Logger 12345>"
+		}
 	}
 })
 
-private fun <T : Any> KClass<T>.mock(simpleName: String?) = object : KClass<T> by this {
+private fun <T : Any> KClass<T>.mock(simpleName: String?, hashCode: Int? = null) = object : KClass<T> by this {
 	override val simpleName = simpleName
+
+	override fun hashCode() = hashCode ?: super.hashCode()
 }

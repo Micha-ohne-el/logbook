@@ -6,12 +6,6 @@ import kotlin.reflect.KClass
 
 class NameNormalizerTests : DescribeSpec({
 	describe(NameNormalizer::invoke) {
-		it("returns null if simpleName and qualifiedName are null") {
-			val kClass = Logbook::class.mock(simpleName = null, qualifiedName = null)
-
-			defaultNameNormalizer(kClass) shouldBe null
-		}
-
 		it("returns simpleName name") {
 			val kClass = Logbook::class.mock(simpleName = "Test", qualifiedName = null)
 
@@ -61,10 +55,19 @@ class NameNormalizerTests : DescribeSpec({
 
 			defaultNameNormalizer(kClass) shouldBe "C"
 		}
+
+		it("returns special name if both simpleName and qualifiedName are null") {
+			val kClass = Logbook::class.mock(simpleName = null, qualifiedName = null, hashCode = 12345)
+
+			defaultNameNormalizer(kClass) shouldBe "<Unnamed Logger 12345>"
+		}
 	}
 })
 
-private fun <T : Any> KClass<T>.mock(simpleName: String?, qualifiedName: String?) = object : KClass<T> by this {
-	override val simpleName = simpleName
-	override val qualifiedName = qualifiedName
-}
+private fun <T : Any> KClass<T>.mock(simpleName: String?, qualifiedName: String?, hashCode: Int? = null) =
+	object : KClass<T> by this {
+		override val simpleName = simpleName
+		override val qualifiedName = qualifiedName
+
+		override fun hashCode() = hashCode ?: super.hashCode()
+	}

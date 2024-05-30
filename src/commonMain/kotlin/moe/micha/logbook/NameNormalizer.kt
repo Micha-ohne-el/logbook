@@ -3,7 +3,7 @@ package moe.micha.logbook
 import kotlin.reflect.KClass
 
 fun interface NameNormalizer {
-	operator fun invoke(kClass: KClass<out Logbook>): String?
+	operator fun invoke(kClass: KClass<out Logbook>): String
 
 	fun String.removeLogSuffix(): String =
 		if (endsWith("log", ignoreCase = true)) {
