@@ -8,6 +8,30 @@ import moe.micha.logbook.pretty.Color
 import moe.micha.logbook.pretty.ColorInfo
 
 class LogbookTests : DescribeSpec({
+	describe("constructor") {
+		it("can be called with 0 arguments") {
+			object : Logbook() {}
+		}
+
+		it("can be passed a name normalizer") {
+			val normalizer = NameNormalizer { "test" }
+			object : Logbook(normalizer) {}
+		}
+	}
+
+	context("WithDefaults") {
+		describe("constructor") {
+			it("can be called with 0 arguments") {
+				object : Logbook.WithDefaults() {}
+			}
+
+			it("can be passed a name normalizer") {
+				val normalizer = NameNormalizer { "test" }
+				object : Logbook.WithDefaults(normalizer) {}
+			}
+		}
+	}
+
 	describe(Logbook::toChunk) {
 		it("returns a chunk with the text and colorInfo") {
 			val logbook = object : TestLogbook() {}

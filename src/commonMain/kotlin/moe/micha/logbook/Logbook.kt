@@ -115,7 +115,7 @@ abstract class Logbook(
 	 *
 	 * ### An [AnsiConsoleOutlet] is preconfigured for the whole logbook.
 	 */
-	abstract class WithDefaults(nameNormalizer: NameNormalizer) : Logbook(nameNormalizer) {
+	abstract class WithDefaults(nameNormalizer: NameNormalizer = defaultNameNormalizer) : Logbook(nameNormalizer) {
 		override fun format(entry: LogEntry) =
 			listOf(
 				Chunk("["),
