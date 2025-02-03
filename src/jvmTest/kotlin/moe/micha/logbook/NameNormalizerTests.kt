@@ -28,14 +28,16 @@ class NameNormalizerTests : DescribeSpec({
 			defaultNameNormalizer(kClass) shouldBe "Test"
 		}
 
-		it("uses qualifiedName if simpleName is forbidden") {
+		it("uses qualifiedName if simpleName is a bad name") {
 			val kClass1 = Logbook::class.mock(simpleName = "Log", qualifiedName = "a")
 			val kClass2 = Logbook::class.mock(simpleName = "Logger", qualifiedName = "a")
 			val kClass3 = Logbook::class.mock(simpleName = "Logbook", qualifiedName = "a")
+			val kClass4 = Logbook::class.mock(simpleName = "Companion", qualifiedName = "a")
 
 			defaultNameNormalizer(kClass1) shouldBe "A"
 			defaultNameNormalizer(kClass2) shouldBe "A"
 			defaultNameNormalizer(kClass3) shouldBe "A"
+			defaultNameNormalizer(kClass4) shouldBe "A"
 		}
 
 		it("splits qualifiedName") {
@@ -51,7 +53,7 @@ class NameNormalizerTests : DescribeSpec({
 		}
 
 		it("skips forbidden qualifiedName segments") {
-			val kClass = Logbook::class.mock(simpleName = "Log", qualifiedName = "a.b.c.log.LOGGER.LogBook.Log")
+			val kClass = Logbook::class.mock(simpleName = "Log", qualifiedName = "a.b.c.log.LOGGER.LogBook.Log.Companion")
 
 			defaultNameNormalizer(kClass) shouldBe "C"
 		}

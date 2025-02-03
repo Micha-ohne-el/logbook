@@ -41,6 +41,18 @@ class NameNormalizerTests : DescribeSpec({
 
 			defaultNameNormalizer(kClass) shouldBe "<Unnamed Logger 12345>"
 		}
+
+		it("returns special name if simpleName is a bad name") {
+			val kClass1 = Logbook::class.mock(simpleName = "Log", hashCode = 1)
+			val kClass2 = Logbook::class.mock(simpleName = "Logger", hashCode = 2)
+			val kClass3 = Logbook::class.mock(simpleName = "Logbook", hashCode = 3)
+			val kClass4 = Logbook::class.mock(simpleName = "Companion", hashCode = 4)
+
+			defaultNameNormalizer(kClass1) shouldBe "<Unnamed Logger 1>"
+			defaultNameNormalizer(kClass2) shouldBe "<Unnamed Logger 2>"
+			defaultNameNormalizer(kClass3) shouldBe "<Unnamed Logger 3>"
+			defaultNameNormalizer(kClass4) shouldBe "<Unnamed Logger 4>"
+		}
 	}
 })
 

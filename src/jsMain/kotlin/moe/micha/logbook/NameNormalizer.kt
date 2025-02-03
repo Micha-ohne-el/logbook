@@ -6,7 +6,7 @@ actual val defaultNameNormalizer = object : NameNormalizer {
 	override operator fun invoke(kClass: KClass<out Logbook>): String {
 		for (name in listOfNotNull(kClass.simpleName)) {
 			for (part in name.split(".").asReversed()) {
-				val withoutSuffix = part.removeLogSuffix()
+				val withoutSuffix = part.removeBadNames()
 
 				if (withoutSuffix.isNotBlank()) return withoutSuffix.replaceFirstChar(Char::uppercase)
 			}
