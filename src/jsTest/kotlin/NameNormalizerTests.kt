@@ -14,7 +14,7 @@ class NameNormalizerTests : DescribeSpec({
 			defaultNameNormalizer(kClass) shouldBe null
 		}
 
-		it("returns simpleName name") {
+		it("returns simpleName") {
 			val kClass = Logbook::class.mock(simpleName = "Test")
 
 			defaultNameNormalizer(kClass) shouldBe "Test"
