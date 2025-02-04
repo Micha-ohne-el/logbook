@@ -60,6 +60,11 @@ kotlin {
 	}
 }
 
+// allow rerunning tests with no changes (prevents the Test Events Were Not Received message):
+tasks.withType<Test> {
+	outputs.upToDateWhen { false }
+}
+
 val sonatypeUsername: String? = System.getenv("SONATYPE_USERNAME")
 val sonatypePassword: String? = System.getenv("SONATYPE_PASSWORD")
 val gpgPrivateKey: String? = System.getenv("GPG_PRIVATE_KEY")
