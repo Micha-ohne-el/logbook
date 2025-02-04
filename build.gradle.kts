@@ -1,4 +1,3 @@
-import java.net.URL
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
@@ -91,7 +90,7 @@ tasks.withType<DokkaTask>().configureEach {
 	dokkaSourceSets.configureEach {
 		sourceLink {
 			localDirectory = projectDir.resolve("src")
-			remoteUrl = URL("$repositoryUrl/tree/$repositoryBranch/src")
+			remoteUrl = uri("$repositoryUrl/tree/$repositoryBranch/src").toURL()
 			remoteLineSuffix = "#L"
 		}
 	}
