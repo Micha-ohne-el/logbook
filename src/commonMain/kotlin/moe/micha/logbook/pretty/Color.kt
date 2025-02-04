@@ -1,13 +1,11 @@
 package moe.micha.logbook.pretty
 
 import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 
 /**
  * Set of three colors (red, green, and blue) which represent any color.
  *
- * @throws AssertionError when any of [red], [green], and [blue] is not in the range `0.0..1.0`.
+ * @throws IllegalArgumentException when any of [red], [green], and [blue] is not in the range `0.0..1.0`.
  */
 data class Color(
 	val red: Double,
@@ -15,17 +13,19 @@ data class Color(
 	val blue: Double,
 ) {
 	val hue by lazy {
+		if (isGray) return@lazy Double.NaN
+
 		when (max) {
-			red -> 0.0 / 3.0 + (green - blue) / (max - min)
-			green -> 1.0 / 3.0 + (blue - red) / (max - min)
-			blue -> 2.0 / 3.0 + (red - green) / (max - min)
-			else -> throw IllegalStateException("red, green, or blue was NaN, when it shouldn't be.")
+			red -> 1.0 / 6.0 * ((green - blue) / (max - min) % 6)
+			green -> 1.0 / 6.0 * ((blue - red) / (max - min) + 2)
+			blue -> 1.0 / 6.0 * ((red - green) / (max - min) + 4)
+			else -> error("Unreachable.")
 		}
 	}
 
 	val saturation by lazy {
 		if (luminance == 0.0 || luminance == 1.0) {
-			0.0
+			Double.NaN
 		} else {
 			(max - min) / (1.0 - abs(2.0 * luminance - 1.0))
 		}
@@ -43,14 +43,18 @@ data class Color(
 
 
 	init {
-		if (red !in 0.0..1.0) throw AssertionError("All arguments must be in the range 0.0..1.0, but red isn't (value=$red).")
-		if (green !in 0.0..1.0) throw AssertionError("All arguments must be in the range 0.0..1.0, but green isn't (value=$green).")
-		if (blue !in 0.0..1.0) throw AssertionError("All arguments must be in the range 0.0..1.0, but blue isn't (value=$blue).")
+		require(red in 0.0..1.0) { "All arguments must be in the range 0.0..1.0, but red isn't (value=$red)." }
+		require(green in 0.0..1.0) { "All arguments must be in the range 0.0..1.0, but green isn't (value=$green)." }
+		require(blue in 0.0..1.0) { "All arguments must be in the range 0.0..1.0, but blue isn't (value=$blue)." }
 	}
 
 
 	private val min by lazy { minOf(red, green, blue) }
 	private val max by lazy { maxOf(red, green, blue) }
+
+	private val isWhite get() = luminance == 1.0
+	private val isBlack get() = luminance == 0.0
+	private val isGray get() = isWhite || isBlack || saturation == 0.0
 
 	companion object {
 		/**
@@ -86,7 +90,7 @@ data class Color(
 		val pureBlack = Color(0.0, 0.0, 0.0)
 
 
-		private infix fun Double.clampIn(range: ClosedRange<Double>) = max(range.start, min(this, range.endInclusive))
+		private infix fun Double.clampIn(range: ClosedRange<Double>) = maxOf(range.start, minOf(this, range.endInclusive))
 
 		private infix fun Double.wrapIn(range: ClosedRange<Double>) = this % (range.endInclusive - range.start) + range.start
 	}
