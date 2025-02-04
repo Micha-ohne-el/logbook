@@ -80,6 +80,27 @@ data class Color(
 			return Color(f(0.0), f(8.0), f(4.0))
 		}
 
+		/**
+		 * Constructs a new [Color] from an RGB triplet.
+		 *
+		 * ## Example usage:
+		 * ```kt
+		 * Color.fromRgb(0xFFFFFF) // full white
+		 * Color.fromRgb(0xC4AFFE) // nice lavender color
+		 * ```
+		 *
+		 * @throws IllegalArgumentException when value is outside the range `0x000000..0xFFFFFF`.
+		 */
+		fun fromRgb(value: Int): Color {
+			require(value in 0x000000..0xFFFFFF) { "Value must be in the range 0x000000..0xFFFFFF (value=${value})." }
+
+			val r = value and 0xFF0000 shr 16
+			val g = value and 0x00FF00 shr 8
+			val b = value and 0x0000FF shr 0
+
+			return Color(r / 0xFF.toDouble(), g / 0xFF.toDouble(), b / 0xFF.toDouble())
+		}
+
 		val pureRed = Color(1.0, 0.0, 0.0)
 		val pureYellow = Color(1.0, 1.0, 0.0)
 		val pureGreen = Color(0.0, 1.0, 0.0)
