@@ -9,6 +9,41 @@
 
 Kotlin/Multiplatform logging library.
 
+## Overview
+
+```kt
+// Logbook.WithDefaults gives us default log levels, formatting, and a console outlet:
+class ParserLog : Logbook.WithDefaults() {
+    // the logger's name is inferred as "Parser" but can be overridden:
+    // override val name = "Parsing"
+    
+    // declare a new log level that is lower than debug:
+    val trace by level(placeBefore = debug) {
+        colorInfo = ColorInfo(0x999999) // gray
+    }
+    
+    // set the format of the logger, example output: 2025-02-04T20:46:55Z Parser - warning : something happened!!
+    override fun format(entry: LogEntry) =
+		listOf(
+			Chunk(entry.time.utc.formatAsStandard()),
+			Chunk(" "),
+			entry.logbook.toChunk(),
+			Chunk(" - "),
+			entry.level.toChunk(),
+			Chunk(" : "),
+			Chunk(entry.data.toString()),
+		)
+    
+    // set the minimum log level to trace:
+    init {
+        minimumLevel = trace
+    }
+    
+    // add companion object to avoid having to manually construct instance:
+    companion object : ParserLog()
+}
+```
+
 ## Installation
 
 Simply add a dependency on logbook to your Gradle project:
