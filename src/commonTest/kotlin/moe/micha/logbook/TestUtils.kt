@@ -6,13 +6,15 @@ import kotlin.reflect.KCallable
 import kotlin.reflect.KClass
 
 fun DescribeSpec.describe(member: KCallable<*>, test: suspend DescribeSpecContainerScope.() -> Unit) =
-	describe(member.name, test)
+	describe(member.name.normalize(), test)
 
 fun DescribeSpec.describe(kClass: KClass<*>, test: suspend DescribeSpecContainerScope.() -> Unit) =
-	describe(kClass.simpleName!!, test)
+	describe(kClass.simpleName!!.normalize(), test)
 
 suspend fun DescribeSpecContainerScope.describe(member: KCallable<*>, test: suspend DescribeSpecContainerScope.() -> Unit) =
-	describe(member.name, test)
+	describe(member.name.normalize(), test)
 
 suspend fun DescribeSpecContainerScope.describe(member: KClass<*>, test: suspend DescribeSpecContainerScope.() -> Unit) =
-	describe(member.simpleName!!, test)
+	describe(member.simpleName!!.normalize(), test)
+
+private fun String.normalize() = replace("<", "").replace(">", "")
