@@ -2,6 +2,7 @@ package moe.micha.logbook.pretty
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.doubles.shouldBeNaN
 import io.kotest.matchers.shouldBe
 import moe.micha.logbook.describe
 
@@ -48,9 +49,9 @@ class ColorTests : DescribeSpec({
 		}
 
 		it("is NaN for any kind of gray") {
-			Color(0.0, 0.0, 0.0).hue shouldBe Double.NaN
-			Color(0.5, 0.5, 0.5).hue shouldBe Double.NaN
-			Color(1.0, 1.0, 1.0).hue shouldBe Double.NaN
+			Color(0.0, 0.0, 0.0).hue.shouldBeNaN()
+			Color(0.5, 0.5, 0.5).hue.shouldBeNaN()
+			Color(1.0, 1.0, 1.0).hue.shouldBeNaN()
 		}
 	}
 
@@ -68,8 +69,8 @@ class ColorTests : DescribeSpec({
 		}
 
 		it("is NaN for white and black") {
-			Color(1.0, 1.0, 1.0).saturation shouldBe Double.NaN
-			Color(0.0, 0.0, 0.0).saturation shouldBe Double.NaN
+			Color(1.0, 1.0, 1.0).saturation.shouldBeNaN()
+			Color(0.0, 0.0, 0.0).saturation.shouldBeNaN()
 		}
 	}
 
