@@ -48,10 +48,8 @@ repositories {
 // for Kotlin/Multiplatform projects:
 kotlin {
     sourceSets {
-        commonMain.configure {
-            dependencies {
-                implementation("moe.micha:logbook:$version")
-            }
+        commonMain.dependencies {
+            implementation("moe.micha:logbook:$version")
         }
     }
 }
