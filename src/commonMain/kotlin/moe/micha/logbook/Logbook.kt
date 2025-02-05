@@ -50,6 +50,10 @@ abstract class Logbook(
 			field
 		}
 		set(value) {
+			if (value != null) require(value in levels) {
+				"The minimum log level you tried to set ($value) is not installed on this logbook ($this)"
+			}
+
 			var enable = false
 			for (level in levels) {
 				if (level == value) enable = true

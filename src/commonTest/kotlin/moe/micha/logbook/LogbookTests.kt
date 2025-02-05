@@ -1,5 +1,6 @@
 package moe.micha.logbook
 
+import io.kotest.assertions.throwables.shouldThrowUnit
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -118,6 +119,38 @@ class LogbookTests : DescribeSpec({
 			logbook.level0.isEnabled shouldBe false
 			logbook.level1.isEnabled shouldBe false
 			logbook.level2.isEnabled shouldBe true
+		}
+
+		it("can be set to null") {
+			val log = object : TestLogbook() {
+				val level1 by level()
+				val level2 by level()
+			}
+
+			log.level1.isEnabled shouldBe true
+			log.level2.isEnabled shouldBe true
+
+			log.minimumLevel = log.level2
+
+			log.level1.isEnabled shouldBe false
+			log.level2.isEnabled shouldBe true
+
+			log.minimumLevel = null
+
+			log.level1.isEnabled shouldBe false
+			log.level2.isEnabled shouldBe false
+		}
+
+		it("throws when assigning level of different logbook") {
+			val log1 = object : TestLogbook() {
+				val level by level()
+			}
+			val log2 = object : TestLogbook() {
+				val level by level()
+			}
+
+			shouldThrowUnit<IllegalArgumentException> { log1.minimumLevel = log2.level }
+			shouldThrowUnit<IllegalArgumentException> { log2.minimumLevel = log1.level }
 		}
 	}
 
