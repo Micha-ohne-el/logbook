@@ -3,6 +3,7 @@ package moe.micha.logbook
 import kotlinx.datetime.Clock
 import moe.micha.logbook.pretty.CanFormat
 import moe.micha.logbook.pretty.Chunk
+import moe.micha.logbook.pretty.Chunkable
 import moe.micha.logbook.pretty.ColorInfo
 import moe.micha.logbook.pretty.Colorable
 
@@ -10,7 +11,7 @@ class LogLevel internal constructor(
 	val logbook: Logbook,
 	val name: String,
 	vararg outlets: LogOutlet,
-) : Colorable, CanFormat, HasOutlets {
+) : Colorable, CanFormat, HasOutlets, Chunkable {
 	override var outlets = outlets.toMutableSet()
 
 	operator fun invoke(data: Any?) {
@@ -32,7 +33,7 @@ class LogLevel internal constructor(
 
 	override var colorInfo: ColorInfo? = null
 
-	fun toChunk() = Chunk(name, colorInfo)
+	override fun toChunk() = Chunk(name, colorInfo)
 
 	override var formatter: ((LogEntry) -> Iterable<Chunk>)? = null
 

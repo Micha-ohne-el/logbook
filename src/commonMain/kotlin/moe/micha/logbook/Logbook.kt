@@ -3,13 +3,7 @@ package moe.micha.logbook
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import moe.micha.logbook.outlets.AnsiConsoleOutlet
-import moe.micha.logbook.pretty.CanFormat
-import moe.micha.logbook.pretty.Chunk
-import moe.micha.logbook.pretty.Color
-import moe.micha.logbook.pretty.ColorInfo
-import moe.micha.logbook.pretty.Colorable
-import moe.micha.logbook.pretty.formatWithSimplePattern
-import moe.micha.logbook.pretty.local
+import moe.micha.logbook.pretty.*
 
 /**
  * Base class for all logbooks.
@@ -37,12 +31,12 @@ import moe.micha.logbook.pretty.local
  */
 abstract class Logbook(
 	private val normalizeName: NameNormalizer = defaultNameNormalizer,
-) : Colorable, CanFormat, HasOutlets {
+) : Colorable, CanFormat, HasOutlets, Chunkable {
 	open val name: String by lazy {
 		normalizeName(this::class)
 	}
 
-	open fun toChunk() = Chunk(name, colorInfo)
+	override fun toChunk() = Chunk(name, colorInfo)
 
 	override var colorInfo: ColorInfo? = null
 	override var formatter: ((LogEntry) -> Iterable<Chunk>)? = null
@@ -116,17 +110,11 @@ abstract class Logbook(
 	 * ### An [AnsiConsoleOutlet] is preconfigured for the whole logbook.
 	 */
 	abstract class WithDefaults(nameNormalizer: NameNormalizer = defaultNameNormalizer) : Logbook(nameNormalizer) {
-		override fun format(entry: LogEntry) =
-			listOf(
-				Chunk("["),
-				Chunk(entry.time.local.formatWithSimplePattern("DD.MM.YYYY@hh:mm:ss.fff")),
-				Chunk("] "),
-				entry.logbook.toChunk(),
-				Chunk(" : "),
-				entry.level.toChunk(),
-				Chunk(" – "),
-				Chunk(entry.data.toString()),
-			)
+		override fun format(entry: LogEntry): List<Chunk> {
+			val timestamp = entry.time.local.formatWithSimplePattern("DD.MM.YYYY@hh:mm:ss.fff")
+
+			return StartChunks + "[$timestamp] " + entry.logbook + " : " + entry.level + " - " + entry.data.toString() + EndChunks
+		}
 
 		override var outlets: MutableSet<LogOutlet> = mutableSetOf(AnsiConsoleOutlet())
 
