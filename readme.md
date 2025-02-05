@@ -24,15 +24,7 @@ class ParserLog : Logbook.WithDefaults() {
     
     // set the format of the logger, example output: 2025-02-04T20:46:55Z Parser - warning : something happened!!
     override fun format(entry: LogEntry) =
-		listOf(
-			Chunk(entry.time.utc.formatAsStandard()),
-			Chunk(" "),
-			entry.logbook.toChunk(),
-			Chunk(" - "),
-			entry.level.toChunk(),
-			Chunk(" : "),
-			Chunk(entry.data.toString()),
-		)
+		StartChunks + entry.time.utc.formatAsStandard() + " " + entry.logbook + " - " + entry.level + " : " + data.toString() + EndChunks
     
     // set the minimum log level to trace:
     init {
