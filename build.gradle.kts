@@ -16,6 +16,7 @@ version = "0.4.1"
 object Versions {
 	const val datetime = "0.6.1"
 	const val kotest = "6.0.0.M1"
+	const val okio = "3.10.2"
 }
 
 repositories {
@@ -45,6 +46,7 @@ kotlin {
 	sourceSets {
 		commonMain.dependencies {
 			implementation("org.jetbrains.kotlinx:kotlinx-datetime:${Versions.datetime}")
+			implementation("com.squareup.okio:okio:${Versions.okio}")
 		}
 
 		commonTest.dependencies {
