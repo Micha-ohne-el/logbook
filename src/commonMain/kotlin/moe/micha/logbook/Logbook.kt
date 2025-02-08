@@ -114,10 +114,10 @@ abstract class Logbook(
 	 * ### An [AnsiConsoleOutlet] is preconfigured for the whole logbook.
 	 */
 	abstract class WithDefaults(nameNormalizer: NameNormalizer = defaultNameNormalizer) : Logbook(nameNormalizer) {
-		override fun format(entry: LogEntry): List<Chunk> {
-			val timestamp = entry.time.local.formatWithSimplePattern("DD.MM.YYYY@hh:mm:ss.fff")
+		override fun format(entry: LogEntry) = entry.format {
+			val timestamp = time.local.formatWithSimplePattern("DD.MM.YYYY@hh:mm:ss.fff")
 
-			return StartChunks + "[$timestamp] " + entry.logbook + " : " + entry.level + " - " + entry.data.toString() + EndChunks
+			"[$timestamp] " * logbook * " : " * level * " - " * data.toString()
 		}
 
 		override var outlets: MutableSet<LogOutlet> = mutableSetOf(AnsiConsoleOutlet())

@@ -6,6 +6,7 @@ import moe.micha.logbook.pretty.Chunk
 import moe.micha.logbook.pretty.Chunkable
 import moe.micha.logbook.pretty.ColorInfo
 import moe.micha.logbook.pretty.Colorable
+import moe.micha.logbook.time.Instant
 
 class LogLevel internal constructor(
 	val logbook: Logbook,
@@ -18,7 +19,7 @@ class LogLevel internal constructor(
 		if (!isEnabled) return
 
 		val entry = LogEntry(
-			time = Clock.System.now(),
+			time = Instant(Clock.System.now()),
 			logbook = logbook,
 			level = this,
 			data = data,
